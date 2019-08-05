@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply from: 'tinkerpatch.gradle'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+    defaultConfig {
+        applicationId "androidtest.project.com.hotfix"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("key.jks")
+            storePassword "123456"
+            keyAlias "testhotfix"
+            keyPassword "123456"
+        }
+
+        debug {
+            storeFile file("key.jks")
+            storePassword "123456"
+            keyAlias "testhotfix"
+            keyPassword "123456"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
+            shrinkResources false
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api rootProject.ext.dependencies.appcompatV7
+    api rootProject.ext.dependencies.design
+    implementation rootProject.ext.dependencies.andfix
+    // 分包方案
+    implementation rootProject.ext.dependencies.multidex
+    implementation rootProject.ext.dependencies.multidex_instrumentation
+
+    //无需引入tinker的任何库,使用tinkerpatch sdk即可
+    implementation("com.tinkerpatch.sdk:tinkerpatch-android-sdk:${TINKERPATCH_VERSION}") {
+        changing = true
+    }
+}

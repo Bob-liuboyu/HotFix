@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <Button
+        android:id="@+id/tv_make_bug"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Make Bug"
+        android:onClick="makeBug"
+        android:textColor="#ffffff"
+        android:textSize="20dp"/>
+
+    <Button
+        android:id="@+id/tv_fix_bug"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Fix Bug"
+        android:onClick="fixBug"
+        android:textColor="#ffffff"
+        android:textSize="20dp"/>
+</LinearLayout>

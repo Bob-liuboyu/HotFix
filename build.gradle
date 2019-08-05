@@ -1,0 +1,49 @@
+apply from: "config.gradle"
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/central'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+        }
+        maven {
+            url 'https://jitpack.io'
+        }
+        maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.1'
+        // TinkerPatch 插件
+        classpath "com.tinkerpatch.sdk:tinkerpatch-gradle-plugin:1.2.13.3"
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/central'
+        }
+        maven {
+            url 'https://maven.aliyun.com/repository/google'
+        }
+        maven {
+            url 'https://jitpack.io'
+        }
+        maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

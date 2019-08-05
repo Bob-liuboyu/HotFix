@@ -1,0 +1,76 @@
+apply plugin: 'tinkerpatch-support'
+
+def bakPath = file("${buildDir}/bakApk/")
+def baseInfo = "app-1.0.0-0805-14-39-56"
+def variantName = "release"
+
+/**
+ * 对于插件各参数的详细解析请参考
+ * http://tinkerpatch.com/Docs/SDK
+ */
+tinkerpatchSupport {
+    /** 可以在debug的时候关闭 tinkerPatch, isRelease() 可以判断BuildType是否为Release **/
+    tinkerEnable = true
+
+    /** 注意: 如果没有改造application 这句话必须写，不然报错 **/
+    reflectApplication = true
+
+    autoBackupApkPath = "${bakPath}"
+
+    appKey = "9ee82e4246771934"
+
+    /** 注意: 若发布新的全量包, appVersion一定要更新 **/
+    appVersion = "1.0.0"
+
+    def pathPrefix = "${bakPath}/${baseInfo}/${variantName}"
+    def name = "${project.name}-${variantName}"
+
+    /** 基础 apk 命名 **/
+    baseApkFile = "${pathPrefix}/${name}.apk"
+    /** 基础 mapping 文件命名 **/
+    baseProguardMappingFile = "${pathPrefix}/${name}-mapping.txt"
+    /** 基础 R 文件命名 **/
+    baseResourceRFile = "${pathPrefix}/${name}-R.txt"
+}
+
+/**
+ * 用于用户在代码中判断tinkerPatch是否被使能
+ */
+android {
+    defaultConfig {
+        buildConfigField "boolean", "TINKER_ENABLE", "${tinkerpatchSupport.tinkerEnable}"
+    }
+}
+
+/**
+ * 一般来说,我们无需对下面的参数做任何的修改
+ * 对于各参数的详细介绍请参考:
+ * https://github.com/Tencent/tinker/wiki/Tinker-%E6%8E%A5%E5%85%A5%E6%8C%87%E5%8D%97
+ */
+tinkerPatch {
+    ignoreWarning = false
+    useSign = true
+    dex {
+        dexMode = "jar"
+        pattern = ["classes*.dex"]
+        loader = []
+    }
+    lib {
+        pattern = ["lib/*/*.so"]
+    }
+
+    res {
+        pattern = ["res/*", "r/*", "assets/*", "resources.arsc", "AndroidManifest.xml"]
+        ignoreChange = []
+        largeModSize = 100
+    }
+
+    packageConfig {
+    }
+    sevenZip {
+        zipArtifact = "com.tencent.mm:SevenZip:1.1.10"
+    }
+    buildConfig {
+        keepDexApply = false
+    }
+}
